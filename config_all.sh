@@ -126,6 +126,10 @@ if preguntar "¿Desea generar llaves SSH?"; then
     echo -e "${GREEN}Generando llaves SSH...${NC}"
     ssh-keygen
     echo -e "${GREEN}Llaves SSH generadas.${NC}"
+    echo "Tu clave pública es:"
+    echo "{YELLOW}"
+    cat ~/.ssh/id_rsa.pub
+    echo "{NC}"
 else
     echo -e "${YELLOW}Llaves SSH no serán generadas.${NC}"
 fi
