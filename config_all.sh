@@ -25,6 +25,15 @@ preguntar() {
     done
 }
 
+# Cargar variables del archivo .env
+if [ -f .env ]; then
+    export $(cat .env | xargs)
+else
+    echo -e "${RED}No se encontró el archivo .env.${NC}"
+    echo -e "${RED}Por favor cree un archivo .env con las variables USER_NAME y USER_EMAIL.${NC}"
+    exit 1
+fi
+
 sudo apt update
 sudo apt upgrade -y
 
@@ -33,6 +42,9 @@ if preguntar "¿Desea instalar Git?"; then
     echo -e "${GREEN}Instalando Git...${NC}"
     sudo apt install -y git
     echo -e "${GREEN}Git instalado.${NC}"
+    echo -e "${GREEN}Configurando Git...${NC}"
+    git config --global user.name "$USER_NAME"
+    git config --global user.email "$USER_EMAIL"
 else
     echo -e "${YELLOW}Git no será instalado.${NC}"
 fi
@@ -94,8 +106,10 @@ else
     echo -e "${YELLOW}Slack no será instalado.${NC}"
 fi
 
+# Copiando la carpeta wallpapers dentro de ~/Pictures
 echo -e "${CYAN}Copiando la carpeta wallpapers dentro de ~/Pictures${NC}"
-cp -r wallpapers ~/Pictures
+cp -r Wallpapers ~/Pictures
+
 
 # Instalar Telegram
 if preguntar "¿Desea instalar Telegram?"; then
